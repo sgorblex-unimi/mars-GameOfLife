@@ -34,7 +34,7 @@ Mars-GameOfLife is a simple MIPS program which tries to implement the game and s
 - Open Mars and open the file `src/main.asm` from the repo directory.
 - Check the "Assemble all files in directory" option in the settings menu (menu bar).
 - Assemble with the wrench icon and run with the green "play" icon.
-- As the dialog pop-up window will tell you, you'll now need to open the Bitmap Display and the MMIO Keyboard Simulator tools from the tools Mars menu. Set this configuration in the Bitmap Display tool (some of the options will be the default):
+- As the dialog pop-up window will tell you, you'll now need to open the Bitmap Display and the MMIO Keyboard Simulator tools from the tools Mars menu. After closing the pop up menu, set this configuration in the Bitmap Display tool (some of the options will be the default):
 	- Unit Width in Pixels: 8
 	- Unit Height in Pixels: 8
 	- Display Width in Pixels: 512
@@ -42,12 +42,12 @@ Mars-GameOfLife is a simple MIPS program which tries to implement the game and s
 	- Base Address for Display: 0x10010000 (static data)
 
   The MMIO Keyboard Simulator won't need any tweak.
-- Click OK on the pop-up dialog and follow the main menu.
+- Press "Connect to MIPS" on both tools
 - Have fun!
 
 ### Features
 - main menu with real time input detection
-- 64x64 cell implementation of Game Of Life through a simulated bitmap display
+- 64x64 cell implementation of Game Of Life through a simulated bitmap display, with "pacman effect" (a boundary cell's next cell is the first on the other side)
 - real time draw mode to create a starting pattern
 - some presets (Gosper's Glider Gun)
 
