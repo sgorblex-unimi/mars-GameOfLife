@@ -10,7 +10,7 @@ next_state:
 
 	# spilling s registers (push)
 	addi $sp $sp -24
-	sw $s0 24($sp)
+	sw $s0 20($sp)
 	sw $s1 16($sp) 			 			# static registers
 	sw $s2 12($sp)
 	sw $s6 8($sp)

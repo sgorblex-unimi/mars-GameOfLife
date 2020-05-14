@@ -1,5 +1,7 @@
-# Mars-GameOfLife
+# Mars-GameOfLife [WIP]
 Mars-GameOfLife is a MIPS assembly implementation of the popular cellular automation by Conway, specifically thought to run on the Mars emulator.
+
+The project is still a Work in Progress. Currently there's a main game implementation, a title screen, a menu with a loadable preset and some procedures.
 
 
 ## What is Game of Life

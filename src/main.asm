@@ -34,12 +34,7 @@ main:
 	# when the player presses a key, the title screen leaves space to the main menu
 	la $a0 next_state_matrix
 	jal copy_matrix
-	# jal menu
+	jal menu
 	
-	# just for testing:
-	la $a0 glidergun
-	jal copy_matrix
-	jal game
-
 	li $v0 10
 	syscall

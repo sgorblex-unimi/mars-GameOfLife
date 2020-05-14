@@ -1,32 +1,42 @@
+	.data
+gamemsg:
+	.asciiz "The game is going! Press any character key or enter to go back to the menu"
 	.text
 	
-# WIP note: the game is not meant to iterate forever, changes will be made (check for inputs at every iteration)
 # WIP note: sleep time will be made modifiable by the player
 	.globl game
 # game() executes the game
 game:
-	# spilling return address before looping
-	addi $sp $sp -4
-	sw $ra 0($sp)
+	# spilling registers (push)
+	addi $sp $sp -8
+	sw $ra 4($sp) 			# return address
+	sw $s0 0($sp) 			# s0
+
+	# print
+	la $a0 gamemsg
+	jal print
+
+	# load MMIO address
+	la $s0 in_flag
+	lw $s0 0($s0) 			# input flag address in s0
 
 	game_iterate:
 		jal next_state 		# next_state_matrix gets updated using game rules
 
 		# copy next_state_matrix into the dislay matrix
 		la $a0 next_state_matrix
-		addi $sp $sp -4
-		sw $ra 0($sp) 		# push return address to stack
 		jal copy_matrix 	# call copy_matrix(next_state_matrix)
-		lw $ra 0($sp)
-		addi $sp $sp 4  	# pop return address from stack
 
 		# idle until next update 
 		# li $v0 32
 		# li $a0 0
 		# syscall 		# sleep
 
-		j game_iterate 			# reiterate
+		# check for new input
+		lw $t0 0($s0)
+		beqz $t0 game_iterate		# check for new input
 end:
-	# popping return address
-	lw $ra 0($sp)
-	addi $sp $sp 4
+	# popping registers
+	lw $s0 0($sp) 			# s0
+	lw $ra 4($sp) 			# return address
+	addi $sp $sp 8
