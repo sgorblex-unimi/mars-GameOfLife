@@ -1,11 +1,11 @@
 # Mars-GameOfLife [WIP]
 Mars-GameOfLife is a MIPS assembly implementation of the popular cellular automation by Conway, specifically thought to run on the Mars emulator.
 
-The project is still a Work in Progress. Currently there's a main game implementation, a title screen, a menu with a loadable preset and some procedures.
+The project is still a Work in Progress. Most of the features have been implemented, however there are still improvements to be made.
 
 
 ## What is Game of Life
-[Game of Life] is a cellular automation devised by John Conway in 1970. It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves. It is Turing complete and can simulate a universal constructor or any other Turing machine. 
+[Game of Life] is a cellular automation devised by John Conway in 1970. It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves. It is Turing complete and can simulate a universal constructor or any other Turing machine. [Wikipedia]
 
 [Game of Life]: https://en.wikipedia.org/wiki/Conway's_Game_of_Life
 
@@ -45,19 +45,19 @@ Mars-GameOfLife is a simple MIPS program which tries to implement the game and s
 
   The MMIO Keyboard Simulator won't need any tweak.
 - Press "Connect to MIPS" on both tools
-- Have fun!
+- Press a character/enter key on the input part of the MMIO tool (bottom rectangle) and have fun!
 
 ### Features
-- main menu with real time input detection
+- Main menu with real time input detection
 - 64x64 cell implementation of Game Of Life through a simulated bitmap display, with "pacman effect" (a boundary cell's next cell is the first on the other side)
-- real time draw mode to create a starting pattern
-- some presets (Gosper's Glider Gun)
+- Real time draw mode to create a starting pattern
+- Some presets (Gosper's Glider Gun)
 
 ### Notes
 The program is a bit heavy, due to the fact that it is running on an emulator and it is relatively calculation-heavy. Because of that, some changes have been made:
-- traditional nested loops to deal with 2-dimensional matrixes have been replaced by a linear approach. More info in `old_code/old_code_readme.md`
-- the convention of spilling $ra is slightly modified: if a procedure call is in a loop, the push/pop of $ra is done before and after the loop to avoid doing it at every iteration.
-- when multiple registers need to be spilled, we choose to use only one addi instruction and several sw/lw.
+- Traditional nested loops to deal with 2-dimensional matrixes have been replaced by a linear approach. More info in `old_code/old_code_readme.md`
+- If a procedure calls other procedures, the push of `$ra` to the stack (return address spilling) is done at the beginning and at the end of the entire procedure (not at every call)
+- When multiple registers need to be spilled, we choose to use only one `addi` instruction and several `sw`/`lw`.
 
 ## What is pngToHex
 pngToHex is a simple tool written in [Go] wich converts a png file in a text string containing the hexadecimal code of every pixel in the picture.
@@ -65,3 +65,5 @@ pngToHex is a simple tool written in [Go] wich converts a png file in a text str
 In Mars-GameOfLife it was used in order to easily print pictures on the bitmap display, wich requires to specify the exact 24bit-RGB color of every pixel. The transfer between the two programs was not automated, and pngToHex is fully indipendent.
 
 More information in `pngToHex/pngToHex_readme.md`
+
+[Go]: https://golang.org

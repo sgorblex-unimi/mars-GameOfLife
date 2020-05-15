@@ -1,5 +1,6 @@
 	.data
 menutext:
+	.byte 12 				# clear first
 	.asciiz "MENU\nSelect what to do:\n\n1: Draw template\t2: Load preset\n3: Play the game!\t4: Settings\n5: Exit"
 
 	.text

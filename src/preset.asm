@@ -1,5 +1,6 @@
 	.data
 presettext:
+	.byte 12 				# clear first
 	.asciiz "Choose the preset to load:\n\n1: Gosper's glidergun\n2: Go back"
 
 	.text

@@ -1,5 +1,6 @@
 	.data
 gamemsg:
+	.byte 12 				# clear first
 	.asciiz "The game is going! Press any character key or enter to go back to the menu"
 	.text
 	
