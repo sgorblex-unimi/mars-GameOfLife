@@ -4,7 +4,6 @@ gamemsg:
 	.asciiz "The game is going! Press any character key or enter to go back to the menu"
 	.text
 	
-# WIP note: sleep time will be made modifiable by the player
 	.globl game
 # game() executes the game
 game:
@@ -29,9 +28,10 @@ game:
 		jal copy_matrix 	# call copy_matrix(next_state_matrix)
 
 		# idle until next update 
-		# li $v0 32
-		# li $a0 0
-		# syscall 		# sleep
+		li $v0 32
+		la $t1 idle_time
+		lw $a0 0($t1) 		# fetch global idle time
+		syscall 		# sleep
 
 		# check for new input
 		lw $t0 0($s0)

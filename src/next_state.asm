@@ -1,9 +1,8 @@
 	.text
 
-# WIP note: color constants could be put in a static register in order not to load it at every iteration
 	.globl next_state
 # next_state() calculates the next state of the game based on the display_matrix and puts it in the next_state_matrix
-#
+
 # note: since spilling return address at every iteration is expensive, it is done before and after the entire loop
 # note: since multiplying the matrix index by the word size and adding the result to the base address is expensive and given that the procedure works sequentially, we prefer keeping a display_matrix and a next_state_matrix current address, wich we update at every iteration. For the same reason there's also no need for nested loops.
 next_state:
@@ -21,7 +20,8 @@ next_state:
 	la $s1 display_matrix					# display_matrix base address in s1
 	la $s2 next_state_matrix 				# next_state_matrix base address in s2
 	li $s7 4096 						# first word out of the display_matrix (just a boundary for exiting the following loop - beq immediate is inefficient)
-	li $s6 0xffffff 					# active color register (in order not to load it at every iteration)
+	la $s6 active_color
+	lw $s6 0($s6) 						# active color register fetched from global variable (in order not to load it at every iteration)
 
 	loop:
 		beq $s0 $s7 end

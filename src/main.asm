@@ -1,5 +1,3 @@
-# 	WIP
-
 	.data
 	.globl display_matrix
 display_matrix:

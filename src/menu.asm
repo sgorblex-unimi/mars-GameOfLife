@@ -23,6 +23,9 @@ menu_print:
 	lw $t6 0($t6) 				# input value address in t6
 
 	wait:
+		li $a0 100
+		li $v0 32
+		syscall 			# sleep to lower CPU usage
 		lw $t1 0($t7)
 		beqz $t1 wait 	  		# check for new input
 
@@ -30,14 +33,13 @@ menu_print:
 		beq $t1 49 launch_draw 		# if input = 1
 		beq $t1 50 launch_preset 	# if input = 2
 		beq $t1 51 launch_game   	# if input = 3
-#		beq $t1 52 launch_settings 	# if input = 4
+		beq $t1 52 launch_settings 	# if input = 4
 		beq $t1 53 exit          	# if input = 5
 		j wait
 
 
 	launch_draw:
 		jal draw
-		# WIP: add clear
 		j menu_print
 
 	launch_preset:
@@ -48,9 +50,9 @@ menu_print:
 		jal game
 		j menu_print
 
-#	launch_settings:
-#		jal settings
-#		j menu_print
+	launch_settings:
+		jal settings
+		j menu_print
 
 	exit:
 		# popping return address

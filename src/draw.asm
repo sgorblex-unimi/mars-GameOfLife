@@ -3,8 +3,6 @@ msg: 	.byte 12 				# clear first
 	.asciiz "Here you can draw your template.\nUse WASD to move and <enter> to activate/deactivate the pixel.\nPress c when you are ready."
 	.text
 
-# WIP note: temporary register to store 64?
-# WIP note: remove redundancy
 	.globl draw
 # draw() launches the interactive menu where the player creates their template by selecting the pixel to invert and pressing enter.
 draw:
@@ -61,7 +59,7 @@ w:
 
 	sw $t2 0($t1) 				# update former cursor color
 
-	addi $t0 $t0 -64
+	sub $t0 $t0 $t5
 	addi $t1 $t1 -256 			# update index and address
 	j after
 

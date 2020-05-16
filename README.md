@@ -1,13 +1,16 @@
-# Mars-GameOfLife [WIP]
+# Mars-GameOfLife
 Mars-GameOfLife is a MIPS assembly implementation of the popular cellular automation by Conway, specifically thought to run on the Mars emulator.
 
-The project is still a Work in Progress. Most of the features have been implemented, however there are still improvements to be made.
+The program is now full-featured but updates are very likely
 
 
 ## What is Game of Life
-[Game of Life] is a cellular automation devised by John Conway in 1970. It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves. It is Turing complete and can simulate a universal constructor or any other Turing machine. [Wikipedia]
+[Game of Life] is a cellular automation devised by John Conway in 1970. It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves. It is Turing complete and can simulate a universal constructor or any other Turing machine.
+
+Way, way more on the [wiki]
 
 [Game of Life]: https://en.wikipedia.org/wiki/Conway's_Game_of_Life
+[wiki]: https://www.conwaylife.com/wiki/Main_Page
 
 ### Rules
 The game is represented by a grid of cells. The grid evolves its state at every iteration, with the following rules applying to the next state:
@@ -47,17 +50,51 @@ Mars-GameOfLife is a simple MIPS program which tries to implement the game and s
 - Press "Connect to MIPS" on both tools
 - Press a character/enter key on the input part of the MMIO tool (bottom rectangle) and have fun!
 
-### Features
+## Features
 - Main menu with real time input detection
 - 64x64 cell implementation of Game Of Life through a simulated bitmap display, with "pacman effect" (a boundary cell's next cell is the first on the other side)
 - Real time draw mode to create a starting pattern
-- Some presets (Gosper's Glider Gun)
+- Some presets (see under)
+
+### Draw mode
+Use the WASD keys (no capslock) to move the cursor. Green cursor means the pixel you're overing on is active, red cursor otherwise. Press enter to invert the activation state of the hovering pixel.
+
+### Presets
+By selecting load presets in the menu you can load one of the following presets:
+- [Gosper's glider gun]
+- Some [spaceships] ([glider], [big glider])
+- Various [oscillators] ([pulsar], [figure eight], [toad], [worker bee], [blinker], [pinwheel], [star])
+- [R-pentomino]
+
+[Gosper's glider gun]: 	https://www.conwaylife.com/wiki/Gosper_glider_gun
+[spaceships]: 		https://www.conwaylife.com/wiki/Spaceship
+[glider]: 		https://www.conwaylife.com/wiki/Glider
+[big glider]: 		https://www.conwaylife.com/wiki/Big_glider
+[oscillators]: 		https://www.conwaylife.com/wiki/Oscillator
+[pulsar]: 		https://www.conwaylife.com/wiki/Pulsar
+[figure eight]: 	https://www.conwaylife.com/wiki/Figure_eight
+[toad]: 		https://www.conwaylife.com/wiki/Toad
+[worker bee]: 		https://www.conwaylife.com/wiki/Worker_bee
+[blinker]: 		https://www.conwaylife.com/wiki/Blinker
+[pinwheel]: 		https://www.conwaylife.com/wiki/Pinwheel
+[star]: 		https://www.conwaylife.com/wiki/Star
+[R-pentomino]: 		https://www.conwaylife.com/wiki/R-pentomino
+
+### In game
+Launch from the menu and that's it. Press any character key or enter to go back to the menu.
+
+### Settings
+Via the settings you can customize:
+- The delay time, wich is added to the normal calculation time (which depending on your machine could be a lot) at every iteration
+- The active pixels' color
 
 ### Notes
-The program is a bit heavy, due to the fact that it is running on an emulator and it is relatively calculation-heavy. Because of that, some changes have been made:
-- Traditional nested loops to deal with 2-dimensional matrixes have been replaced by a linear approach. More info in `old_code/old_code_readme.md`
+The program is a bit heavy, due to the fact that it is running on an emulator and it is relatively calculation-heavy (natively though it would be much, much faster). Because of that, some changes have been made:
+- Traditional nested loops to deal with 2-dimensional matrixes (arrays) have been replaced by a linear approach. More info in `old_code/old_code_readme.md`
 - If a procedure calls other procedures, the push of `$ra` to the stack (return address spilling) is done at the beginning and at the end of the entire procedure (not at every call)
 - When multiple registers need to be spilled, we choose to use only one `addi` instruction and several `sw`/`lw`.
+- We often use available registers to keep constants available through relatively large portions of code, in order not to load them from memory or with `li` pseudoinstructions every timewe make use of them.
+
 
 ## What is pngToHex
 pngToHex is a simple tool written in [Go] wich converts a png file in a text string containing the hexadecimal code of every pixel in the picture.
