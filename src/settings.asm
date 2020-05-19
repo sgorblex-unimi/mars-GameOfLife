@@ -10,7 +10,7 @@ idle_time:
 
 settingstext:
 	.byte 12 				# clear first
-	.asciiz "Settings\n\n1. Change idle time (default: 1 ms)\t2. Change active pixels' color (default: white)\n3. Go back\n\nnote: idle time is added to the calculation time, which is perse a lot.\nnote: presets won't change color."
+	.asciiz "Settings\n\n1. Change idle time (default: 1 ms)\t2. Change active pixels' color (default: white)\n3. Go back\n\nnote: idle time is added to the calculation time, which is perse a lot.\nnote: presets won't change color until the first display update."
 
 timetext:
 	.byte 12 				# clear first

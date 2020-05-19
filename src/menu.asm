@@ -1,7 +1,7 @@
 	.data
 menutext:
 	.byte 12 				# clear first
-	.asciiz "MENU\nSelect what to do:\n\n1: Draw template\t2: Load preset\n3: Play the game!\t4: Settings\n5: Exit"
+	.asciiz "MENU\nSelect what to do:\n\n1: Draw template\t2: Load preset\n3: Random pattern\t4: Play the game!\n5: Settings\t\t6: Exit"
 
 	.text
 
@@ -32,9 +32,10 @@ menu_print:
 		lw $t1 0($t6) 			# input value in t1
 		beq $t1 49 launch_draw 		# if input = 1
 		beq $t1 50 launch_preset 	# if input = 2
-		beq $t1 51 launch_game   	# if input = 3
-		beq $t1 52 launch_settings 	# if input = 4
-		beq $t1 53 exit          	# if input = 5
+		beq $t1 51 launch_random 	# if input = 3
+		beq $t1 52 launch_game   	# if input = 4
+		beq $t1 53 launch_settings 	# if input = 5
+		beq $t1 54 exit          	# if input = 6
 		j wait
 
 
@@ -48,6 +49,10 @@ menu_print:
 
 	launch_game:
 		jal game
+		j menu_print
+
+	launch_random:
+		jal random
 		j menu_print
 
 	launch_settings:

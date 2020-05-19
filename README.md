@@ -55,6 +55,7 @@ Mars-GameOfLife is a simple MIPS program which tries to implement the game and s
 - 64x64 cell implementation of Game Of Life through a simulated bitmap display, with "pacman effect" (a boundary cell's next cell is the first on the other side)
 - Real time draw mode to create a starting pattern
 - Some presets (see under)
+- Possibility to randomly choose a pattern
 
 ### Draw mode
 Use the WASD keys (no capslock) to move the cursor. Green cursor means the pixel you're overing on is active, red cursor otherwise. Press enter to invert the activation state of the hovering pixel.
