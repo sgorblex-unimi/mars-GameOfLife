@@ -2,12 +2,12 @@
 
 	.globl neighbor_counter
 # neighbor_counter(a0, a1) calculates the number of active neighbors of the a0th element in the 64x64 display_matrix, which is found at the address a1, and returns the number in $v0. The choice of using two arguments despite the fact that one of them can be calculated from the other is due to efficiency.
-
-# note: instead of using the canonical formula to calculate &matr[i][j], that is: base_addr + ( j + i * rowsize ) * datasize we choose to use a multiple cases linear/sequential approach wich saves many instructions. A previous, inefficient version of this procedure, which uses instead far more complicated nested loops, can be found in the old_code directory.
+#
+# note: instead of using the canonical formula to calculate &matr[i][j], that is: [base_addr + ( j + i * rowsize ) * datasize] we choose to use a multiple cases linear/sequential approach which saves many instruction executions (at the cost of more lines of code). A previous, inefficient version of this procedure, which uses instead far more complicated nested loops, can be found in the old_code repo directory.
 neighbor_counter:
 	move $v0 $zero 					# initialize return variable
 
-	# branch to special cases (boundaries), keep center for last to save a jump (most common case)
+	# branch to special cases (boundaries), keep center for last to save a jump (most common case, Amdahl's law)
 	li $t7 64
 	blt $a0 $t7 top
 	li $t5 4032
@@ -129,7 +129,6 @@ neighbor_counter:
 		jr $ra
 
 	top_left:
-	# special case
 	# tl_1:
 		lw $t2 16380($a1)
 		beqz $t2 tl_2
@@ -165,7 +164,6 @@ neighbor_counter:
 		jr $ra
 
 	top_right:
-	# special case
 	# tr_1:
 		lw $t2 16124($a1)
 		beqz $t2 tr_2
@@ -239,7 +237,6 @@ neighbor_counter:
 		jr $ra
 
 	bottom_left:
-	# special case
 	# bl_1:
 		lw $t2 -4($a1)
 		beqz $t2 bl_2
@@ -269,13 +266,12 @@ neighbor_counter:
 		beqz $t2 bl_8
 		addi $v0 $v0 1
 	bl_8:
-		lw $t2 -16124($a1) # was -16124 MODIFIED
+		lw $t2 -16124($a1)
 		beqz $t2 end
 		addi $v0 $v0 1
 		jr $ra
 
 	bottom_right:
-	# special case
 	# br_1:
 		lw $t2 -260($a1)
 		beqz $t2 br_2
@@ -305,7 +301,7 @@ neighbor_counter:
 		beqz $t2 br_8
 		addi $v0 $v0 1
 	br_8:
-		lw $t2 -16380($a1) # was -16380 MODIFIED
+		lw $t2 -16380($a1)
 		beqz $t2 end
 		addi $v0 $v0 1
 		jr $ra

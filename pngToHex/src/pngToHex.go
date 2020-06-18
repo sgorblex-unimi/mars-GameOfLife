@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-var toFile = flag.String("tofile", "", "Redirects the output to the specified file (default: stdin)")
+var toFile = flag.String("tofile", "", "Redirects the output to the specified file (default: stdout)")
 
 func main() {
 	// set up log
@@ -22,7 +22,7 @@ func main() {
 	log.SetOutput(logFile)
 	log.Println("Log started")
 
-	// parsing options (flags)
+	// parse options (flags)
 	flag.Parse()
 
 	// open png
@@ -30,14 +30,14 @@ func main() {
 		fmt.Println("Insert a png path as argument")
 		log.Fatal("No arguments")
 	}
-	reader, err := os.Open(flag.Args()[0])
+	picFile, err := os.Open(flag.Args()[0])
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer reader.Close()
+	defer picFile.Close()
 
 	// decode png
-	pic, _, err := image.Decode(reader)
+	pic, _, err := image.Decode(picFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -79,7 +79,7 @@ func fileOut(pic image.Image, fileName string) {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			// r, g, b, a := pic.At(x, y).RGBA()
 			r, g, b, _ := pic.At(x, y).RGBA() // ignoring A field
-			// fmt.Printf("0x%.2x%.2x%.2x%.2x ", r>>8, g>>8, b>>8, a>>8)
+			// fmt.Fprintf(outputFile, "0x%.2x%.2x%.2x%.2x ", r>>8, g>>8, b>>8, a>>8)
 			fmt.Fprintf(outputFile, "0x%.2x%.2x%.2x ", r>>8, g>>8, b>>8)
 		}
 	}
